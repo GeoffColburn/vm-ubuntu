@@ -10,5 +10,7 @@
    - name: Start Elasticsearch
      service: name=elasticsearch state=started
 
+   - name: Configure Firewall for Elasticsearch
+     shell: iptables -A INPUT -s 127.0.0.1 -p tcp --destination-port 9200 -m state --state NEW,ESTABLISHED -j ACCEPT
 
 

@@ -9,10 +9,14 @@
      notify:
       - Start Mongodb
 
-   - name: Configure Nginx
+   - name: Configure Mongodb
      copy: src={{config}} dest=/etc/mongodb.conf
      notify:
       - Reload Mongodb
+
+   - name: Configure Firewall for Mongodb
+     shell: iptables -A INPUT -s 127.0.0.1 -p tcp --destination-port 27017 -m state --state NEW,ESTABLISHED -j ACCEPT
+
 
   handlers:
     - name: Start Mongodb
