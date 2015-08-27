@@ -1,0 +1,7 @@
+---
+- include: playbooks/apt.yml
+- include: playbooks/python.yml
+- include: playbooks/nginx.yml
+- include: playbooks/mongodb.yml
+- include: playbooks/elasticsearch.yml
+- include: playbooks/hosts.yml

@@ -1,0 +1,25 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+   - config: files/nginx.conf
+  tasks:
+   - name: Install Nginx
+     apt: package=nginx state=installed
+     notify:
+      - Start Nginx
+
+   - name: Configure Nginx
+     template: src={{config}} dest=/etc/nginx/nginx.conf
+     notify:
+      - Reload Nginx
+
+  handlers:
+   - name: Install Nginx
+     file: path=/root/.installed.nginx state=touch
+
+   - name: Start Nginx
+     service: name=nginx state=started
+
+   - name: Reload Nginx
+     service: name=nginx state=reloaded

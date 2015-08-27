@@ -1,0 +1,20 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+    - config: files/nginx-proxy.conf
+  tasks:
+    - name: Configure Proxies
+      template: src={{config}} dest=/etc/nginx/sites-enabled/{{item.name}}.proxy.conf
+      with_items:
+        - name: mongo.vagrant
+          proxy: http://localhost:27017
+
+        - name: es.vagrant
+          proxy: http://localhost:9200
+
+        - name: webapp.vagrant
+          proxy: http://localhost:8080
+
+    - name: Reload Nginx
+      service: name=nginx state=reloaded

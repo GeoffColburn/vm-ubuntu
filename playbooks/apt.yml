@@ -1,0 +1,16 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+  - name: Perform Safe Upgrade
+    shell: apt-get update && touch /root/.aptupdated
+    args:
+      creates: /root/.aptupdated
+
+  - name: Install Server Basics
+    apt: pkg={{ item }} state=installed
+    with_items:
+      - nmap
+      - ack-grep
+      - vim
+      - git

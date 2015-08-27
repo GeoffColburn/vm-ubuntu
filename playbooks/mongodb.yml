@@ -1,0 +1,22 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+   - config: files/mongodb.conf
+  tasks:
+   - name: Install Mongodb
+     shell: apt-get install -y mongodb creates=/usr/bin/mongod
+     notify:
+      - Start Mongodb
+
+   - name: Configure Nginx
+     copy: src={{config}} dest=/etc/mongodb.conf
+     notify:
+      - Reload Mongodb
+
+  handlers:
+    - name: Start Mongodb
+      service: name=mongodb state=started
+
+    - name: Reload Mongodb
+      service: name=mongodb state=reloaded

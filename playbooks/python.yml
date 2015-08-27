@@ -1,0 +1,10 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+  - name: Install Python Basics
+    apt: pkg={{ item }} state=installed
+    with_items:
+      - python-dev
+      - python-pip
+      - python-virtualenv

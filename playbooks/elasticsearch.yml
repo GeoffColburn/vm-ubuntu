@@ -1,0 +1,14 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+   - version: 1.5.1
+  tasks:
+   - name: Install Elasticsearch
+     script: scripts/install-elasticsearch.sh {{version}} creates=/etc/elasticsearch/elasticsearch.yml
+
+   - name: Start Elasticsearch
+     service: name=elasticsearch state=started
+
+
+
