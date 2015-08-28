@@ -2,7 +2,7 @@
 - hosts: all
   sudo: yes
   tasks:
-  - name: Install Python Basics
+  - name: Install Python Fundamentals
     apt: pkg={{ item }} state=installed
     with_items:
       - python-dev
