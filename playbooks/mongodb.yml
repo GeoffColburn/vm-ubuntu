@@ -5,7 +5,7 @@
    - config: files/mongodb.conf
   tasks:
    - name: Install Mongodb
-     shell: apt-get install -y mongodb creates=/usr/bin/mongod
+     shell: apt-get install -y mongodb creates=/etc/mongod.conf
      notify:
       - Start Mongodb
 

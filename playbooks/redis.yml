@@ -1,0 +1,25 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+    - config: files/redis.conf
+  tasks:
+  - name: Install Redis
+    shell: apt-get install -y redis-server creates=/etc/redis.conf
+    notify:
+      - Start Redis
+
+  - name: Configure Redis
+    copy: src={{config}} dest=/etc/redis.conf
+    notify:
+     - Reload Redis
+
+  - name: Configure Firewall for Redis
+    shell: iptables -A INPUT -s 127.0.0.1 -p tcp --destination-port 6379 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+  handlers:
+    - name: Start Redis
+      service: name=redis-server state=started
+
+    - name: Reload Redis
+      service: name=redis-server state=reloaded

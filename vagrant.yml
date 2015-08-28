@@ -4,4 +4,5 @@
 - include: playbooks/nginx.yml
 - include: playbooks/mongodb.yml
 - include: playbooks/elasticsearch.yml
+- include: playbooks/redis.yml
 - include: playbooks/hosts.yml
