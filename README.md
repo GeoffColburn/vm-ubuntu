@@ -13,7 +13,7 @@ Currently sets up the following:
 Todo
 
 - Postgres
-- SMTP
 - Logstash
 - Kibana
+- SMTP
 - RabbitMQ (?)
