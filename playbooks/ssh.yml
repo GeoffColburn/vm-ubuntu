@@ -1,0 +1,8 @@
+- hosts: all
+  sudo: yes
+  vars:
+    - config: files/sshd_config
+  tasks:
+    - name: Configure SSH
+      template: src={{config}} dest=/etc/ssh/sshd_config
+
