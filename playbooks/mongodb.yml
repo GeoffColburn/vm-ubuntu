@@ -10,7 +10,7 @@
       - Start Mongodb
 
    - name: Configure Mongodb
-     copy: src={{config}} dest=/etc/mongodb.conf
+     template: src={{config}} dest=/etc/mongodb.conf
      notify:
       - Reload Mongodb
 

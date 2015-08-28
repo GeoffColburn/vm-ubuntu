@@ -10,7 +10,7 @@
       - Start Redis
 
   - name: Configure Redis
-    copy: src={{config}} dest=/etc/redis.conf
+    template: src={{config}} dest=/etc/redis.conf
     notify:
      - Reload Redis
 
