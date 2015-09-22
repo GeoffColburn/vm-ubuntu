@@ -1,0 +1,49 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+    - version: 9.3
+    - config: files/postgresql.conf
+    - host: "host    all             all             192.168.1.1/32          trust"
+
+  tasks:
+    - name: Install PostgreSQL
+      shell: apt-get install postgresql-{{version}} -y creates=/etc/postgresql
+      notify:
+        - Start PostgreSQL
+
+    - name: Configure PostgreSQL - Step 1
+      template: src={{config}} dest=/etc/postgresql/{{version}}/main/postgresql.conf
+
+    - name: Configure PostgreSQL - Step 2
+      lineinfile: dest=/etc/postgresql/9.3/main/pg_hba.conf regexp="^{{host}}" insertafter="^# IPv4 local" line="{{host}}"
+      notify:
+        - Reload PostgreSQL
+
+    - name: Install Extra Modules
+      shell: apt-get install libpq-dev -y
+      shell: apt-get install python-psycopg2 -y
+      shell: apt-get install python3-psycopg2 -y
+
+    - name: Create Postgres User
+      user: name=postgres password=postgres groups="sudo,ssl-cert"
+
+    - name: Create Vagrant User
+      postgresql_user: name=vagrant password=vagrant role_attr_flags=CREATEDB,NOSUPERUSER
+      sudo_user: postgres
+
+    - name: Create Vagrant Database
+      postgresql_db: name=vagrant encoding='UTF-8' template=template0
+      sudo_user: postgres
+
+    - name: Configure Firewall for PostgreSQL
+      shell: iptables -A INPUT -s 127.0.0.1 -p tcp --destination-port 5432 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+  handlers:
+    - name: Start PostgreSQL
+      service: name=postgresql state=started
+      sudo_user: postgres
+
+    - name: Reload PostgreSQL
+      service: name=postgresql state=reloaded
+      sudo_user: postgres
