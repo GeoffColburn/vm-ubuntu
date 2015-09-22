@@ -13,5 +13,12 @@
         - name: webapp.vagrant
           proxy: http://localhost:8080
 
+        - name: webapp.vagrant
+          proxy: http://localhost:8000
+
+      notify:
+        - Reload Nginx
+
+  handlers:
     - name: Reload Nginx
       service: name=nginx state=reloaded
