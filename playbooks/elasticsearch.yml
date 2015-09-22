@@ -3,12 +3,13 @@
   sudo: yes
   vars:
    - version: 1.5.1
+   - config: files/elasticsearch.yml
   tasks:
    - name: Install Elasticsearch
      script: scripts/install-elasticsearch.sh {{version}} creates=/etc/elasticsearch/elasticsearch.yml
 
    - name: Configure Elasticsearch
-     template: src=files/elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml
+     template: src={{config}} dest=/etc/elasticsearch/elasticsearch.yml
 
    - name: Start Elasticsearch
      service: name=elasticsearch state=started
