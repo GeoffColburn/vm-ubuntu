@@ -9,10 +9,10 @@ Currently sets up the following:
 - Mongodb (vagrant: 27017)
 - Redis
 - Python Fundamentals
+- Postgres
 
 Todo
 
-- Postgres
 - Logstash
 - Kibana
 - SMTP
